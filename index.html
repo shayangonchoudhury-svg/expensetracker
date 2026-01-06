@@ -4,6 +4,8 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Expense Tracker — Full</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2563eb">
 
   <!-- Chart.js CDN (change to local if you need fully offline) -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -1077,4 +1079,11 @@ document.getElementById('editTypeIncome').addEventListener('click', ()=>{
 
   </script>
 </body>
+  <script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js');
+}
+</script>
+
 </html>
+
