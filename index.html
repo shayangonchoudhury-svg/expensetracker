@@ -13,7 +13,7 @@
 
   <style>
     :root{
-      --bg-landing: linear-gradient(180deg,#eef6ff 0₹, #f7fbff 100₹);
+      --bg-landing: linear-gradient(180deg,#eef6ff 0%, #f7fbff 100%);
       --bg-app: #f6f8fb;
       --card: rgba(255,255,255,0.86);
       --glass: rgba(255,255,255,0.8);
@@ -69,8 +69,8 @@
     .toggle{display:flex;border-radius:10px;overflow:hidden;border:1px solid #eef2ff;background:#fff}
     .toggle button{flex:1;padding:10px;border:0;background:transparent;cursor:pointer;font-weight:600}
     .toggle button.active{background:var(--danger);color:#fff}
-    input,select,textarea{padding:10px;border-radius:10px;border:1px solid #e9f0ff;width:100₹;font-size:14px;background:#fff}
-    .add-btn{background:linear-gradient(90deg,var(--primary),#3b82f6);color:#fff;padding:12px;border-radius:12px;border:0;cursor:pointer;width:100₹;font-weight:800;box-shadow:0 10px 22px rgba(37,99,235,0.12)}
+    input,select,textarea{padding:10px;border-radius:10px;border:1px solid #e9f0ff;width:100%;font-size:14px;background:#fff}
+    .add-btn{background:linear-gradient(90deg,var(--primary),#3b82f6);color:#fff;padding:12px;border-radius:12px;border:0;cursor:pointer;width:100%;font-weight:800;box-shadow:0 10px 22px rgba(37,99,235,0.12)}
     .small-muted{color:var(--muted);font-size:13px}
     .tx{display:flex;justify-content:space-between;padding:12px;border-radius:10px;background:linear-gradient(180deg,#ffffff,#fbfdff);margin-bottom:10px;border:1px solid rgba(15,23,36,0.03)}
     .tx .left{display:flex;gap:12px;align-items:center}
@@ -90,7 +90,7 @@
     /* modal */
     .modal-backdrop{position:fixed;inset:0;background:rgba(2,6,23,0.38);display:none;align-items:center;justify-content:center;padding:18px;z-index:1600}
     .modal-backdrop.show{display:flex}
-    .modal{width:100₹;max-width:540px;background:var(--card);padding:18px;border-radius:14px;box-shadow:var(--shadow)}
+    .modal{width:100%;max-width:540px;background:var(--card);padding:18px;border-radius:14px;box-shadow:var(--shadow)}
 
     /* small screens */
     @media(max-width:980px){
@@ -289,6 +289,52 @@
                 <button id="exportCSVtx" class="pill tiny" title="Export transactions as CSV">CSV Tx</button>
               </div>
 
+              <!-- PHASE 7 : STREAKS & REWARDS -->
+<div style="margin-top:12px;background:#fff;padding:12px;border-radius:10px">
+
+
+  <div style="margin-top:8px">
+    <div class="small-muted">Zero-Spend Streak</div>
+    <div id="zeroSpendStreak" style="font-weight:800">0 days</div>
+  </div>
+
+  <div style="margin-top:8px">
+    <div class="small-muted">Logging Streak</div>
+    <div id="logStreak" style="font-weight:800">0 days</div>
+  </div>
+
+  <div id="streakBadges" style="margin-top:10px;font-size:18px"></div>
+</div>
+
+
+<!-- PHASE 8 : MONTHLY FINANCIAL SUMMARY -->
+<div style="margin-top:12px;background:#f8fafc;padding:12px;border-radius:10px">
+  <div class="small-muted">Monthly Financial Summary</div>
+
+  <div id="monthlySummary"
+       style="margin-top:8px;font-size:14px;line-height:1.5">
+    No data yet.
+  </div>
+
+  <button id="copySummary"
+          class="edit-btn"
+          style="margin-top:8px;width:100%">
+    Copy Summary
+  </button>
+</div>
+
+
+            <!-- Phase 1 -->
+<div style="margin-top:12px;background:#f8fafc;padding:12px;border-radius:10px">
+  <div class="small-muted">Monthly Trends</div>
+  <div id="trendIndicators" style="margin-top:6px;font-weight:700"></div>
+</div>
+
+<div style="margin-top:12px;background:#fff;padding:12px;border-radius:10px">
+  <div class="small-muted">Zero-Spend Days</div>
+  <div id="zeroSpendInfo" style="margin-top:6px;font-weight:700"></div>
+</div>
+
               <div style="display:flex;gap:10px;margin-top:12px">
                 <div style="flex:1;padding:12px;border-radius:10px;background:#fff2f2">
                   <div class="small-muted">Expenses</div>
@@ -300,13 +346,52 @@
                 </div>
               </div>
 
+              <!-- PHASE 2 : MONTHLY BUDGET -->
+<div style="margin-top:12px;background:#fff;padding:12px;border-radius:10px">
+  <div class="small-muted">Monthly Budget</div>
+
+  <div style="display:flex;gap:8px;margin-top:6px">
+    <input id="budgetInput" type="number" placeholder="Set budget ₹" style="flex:1"/>
+    <button id="saveBudget" class="edit-btn">Save</button>
+  </div>
+
+  <div style="margin-top:8px">
+    <div style="height:10px;background:#f1f5f9;border-radius:8px;overflow:hidden">
+      <div id="budgetBar" style="height:10px;width:0%;background:#10b981"></div>
+    </div>
+    <div id="budgetText" class="tiny muted" style="margin-top:6px">No budget set</div>
+  </div>
+</div>
+
+<!-- PHASE 4 : EXPENSE HEATMAP -->
+<div style="margin-top:12px;background:#fff;padding:12px;border-radius:10px">
+  <div class="small-muted">Expense Heatmap (This Month)</div>
+  <div id="expenseHeatmap"
+       style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:8px">
+  </div>
+  <div class="tiny muted" style="margin-top:6px">
+    Darker color = higher spending
+  </div>
+</div>
+
+<!-- PHASE 5 : SMART INSIGHTS -->
+<div style="margin-top:12px;background:#f1f5ff;padding:12px;border-radius:10px">
+  <div class="small-muted">Smart Insights</div>
+  <ul id="smartInsights" style="margin:8px 0 0 16px;padding:0;font-size:14px">
+    <li class="tiny muted">Analyzing your finances…</li>
+  </ul>
+</div>
+
+
               <div style="margin-top:12px">
                 <div class="small-muted">Savings Rate</div>
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px">
-                  <div style="flex:1;margin-right:12px"><div id="savingsBar" style="height:12px;background:#e6f3ff;border-radius:8px;width:0₹"></div></div>
-                  <div id="savingsPct" style="min-width:60px;text-align:right;font-weight:800">0.0₹</div>
+                  <div style="flex:1;margin-right:12px"><div id="savingsBar" style="height:12px;background:#e6f3ff;border-radius:8px;width:0%"></div></div>
+                  <div id="savingsPct" style="min-width:60px;text-align:right;font-weight:800">0.0%</div>
                 </div>
               </div>
+
+              
 
               <div style="margin-top:12px">
                 <div class="small-muted">Payment Methods</div>
@@ -417,7 +502,7 @@
   /***********************
    * Storage keys & helpers
    ***********************/
-  const LS = { balances: 'et_balances_v1', transactions: 'et_txs_v1' };
+  const LS = { balances: 'et_balances_v1', transactions: 'et_txs_v1', budget: 'et_budget_v1'};
   function money(n){ return '₹' + Number(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}); }
   function round(n){ return Math.round(n*100)/100; }
 
@@ -432,6 +517,48 @@
 
   function getTxs(){ try{ return JSON.parse(localStorage.getItem(LS.transactions) || '[]'); }catch(e){ return []; } }
   function saveTxs(arr){ localStorage.setItem(LS.transactions, JSON.stringify(arr)); }
+
+  /***********************
+ * Budget helpers (PHASE 2)
+ ***********************/
+function getMonthlyBudget(){
+  return Number(localStorage.getItem(LS.budget) || 0);
+}
+
+function saveMonthlyBudget(val){
+  localStorage.setItem(LS.budget, Number(val));
+}
+
+function renderBudget(monthExpenses){
+  const budget = getMonthlyBudget();
+  const bar = document.getElementById('budgetBar');
+  const text = document.getElementById('budgetText');
+  const input = document.getElementById('budgetInput');
+
+  if(!budget || budget <= 0){
+    bar.style.width = '0%';
+    bar.style.background = '#e5e7eb';
+    text.textContent = 'No budget set';
+    return;
+  }
+
+  const usedPct = Math.min((monthExpenses / budget) * 100, 100);
+  bar.style.width = usedPct + '%';
+
+  if(usedPct < 80){
+    bar.style.background = '#10b981';
+    text.textContent = `₹${monthExpenses.toFixed(2)} of ₹${budget} used`;
+  } else if(usedPct < 100){
+    bar.style.background = '#f59e0b';
+    text.textContent = `⚠ Near budget: ₹${monthExpenses.toFixed(2)} / ₹${budget}`;
+  } else {
+    bar.style.background = '#ef4444';
+    text.textContent = `❌ Budget exceeded: ₹${monthExpenses.toFixed(2)} / ₹${budget}`;
+  }
+
+  input.value = budget;
+}
+
 
   /***********************
    * Renderers
@@ -485,61 +612,280 @@
     });
   }
 
-  function showExportMenu(){
-  const txs = getTxs();
-  const balances = getBalances();
-  const data = {
-    balances: balances,
-    transactions: txs
-  };
-  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'expense_backup_'+new Date().toISOString().slice(0,10)+'.json';
-  a.click();
-}
 
-function handleFileInput(e){
-  const file = e.target.files[0];
-  if(!file) return;
-  const reader = new FileReader();
-  reader.onload = function(evt){
-    try{
-      if(file.name.endsWith('.json')){
-        const data = JSON.parse(evt.target.result);
-        if(data.balances) localStorage.setItem(LS.balances, JSON.stringify(data.balances));
-        if(data.transactions) localStorage.setItem(LS.transactions, JSON.stringify(data.transactions));
-      } else if(file.name.endsWith('.csv')){
-        // basic CSV parser for transactions
-        const lines = evt.target.result.split('\n').filter(l=>l.trim());
-        const txs = lines.slice(1).map(l=>{
-          const [id,type,amount,category,method,desc,date] = l.split(',');
-          return { id:id||'t_'+Date.now(), type, amount:parseFloat(amount), category, method, desc, date:new Date(date).toISOString() };
-        });
-        saveTxs(txs);
-      }
-      renderBalances(); renderRecent(); renderAnalysis(); renderOverview(currentRange);
-      alert('Data imported successfully');
-    } catch(err){
-      alert('Error importing file');
+function renderExpenseHeatmap(){
+  const container = document.getElementById('expenseHeatmap');
+  if(!container) return;
+
+  const txs = getTxs();
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth();
+
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const dailySpend = Array(daysInMonth).fill(0);
+
+  txs.forEach(t=>{
+    if(t.type !== 'expense') return;
+    const d = new Date(t.date);
+    if(d.getFullYear() === year && d.getMonth() === month){
+      dailySpend[d.getDate() - 1] += Number(t.amount);
     }
-  };
-  reader.readAsText(file);
-  e.target.value=''; // reset
+  });
+
+  const maxSpend = Math.max(...dailySpend) || 1;
+
+
+  container.innerHTML = '';
+
+  for(let i = 0; i < daysInMonth; i++){
+    const amt = dailySpend[i];
+    let color = '#e5f9ee'; // no spend
+
+    if(amt > 0 && amt <= maxSpend * 0.33) color = '#bbf7d0';
+    else if(amt <= maxSpend * 0.66) color = '#86efac';
+    else if(amt > maxSpend * 0.66) color = '#22c55e';
+
+    const cell = document.createElement('div');
+    cell.style.height = '24px';
+    cell.style.borderRadius = '6px';
+    cell.style.background = color;
+    cell.title = `Day ${i+1}: ₹${amt.toFixed(2)}`;
+
+    container.appendChild(cell);
+  }
 }
 
-function exportTransactionsCSV(){
+function getExpensePersonality(){
   const txs = getTxs();
-  if(!txs.length){ alert('No transactions to export'); return; }
-  const header = ['ID','Type','Amount','Category','Method','Description','Date'];
-  const rows = txs.map(t=>[t.id,t.type,t.amount,t.category,t.method,t.desc,new Date(t.date).toISOString()]);
-  const csvContent = [header, ...rows].map(r=>r.map(c=>`"${c}"`).join(',')).join('\n');
-  const blob = new Blob([csvContent], {type:'text/csv'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'transactions_'+new Date().toISOString().slice(0,10)+'.csv';
-  a.click();
+  let food = 0, shopping = 0, bills = 0;
+
+  txs.forEach(t=>{
+    if(t.type !== 'expense') return;
+    if(t.category.includes('Food')) food += t.amount;
+    if(t.category.includes('Shopping')) shopping += t.amount;
+    if(t.category.includes('Bills')) bills += t.amount;
+  });
+
+  if(food > shopping && food > bills) return 'Food Lover 🍔';
+  if(shopping > food) return 'Shopaholic 🛍';
+  if(bills > food && bills > shopping) return 'Responsible Planner 📊';
+
+  return 'Balanced ⚖️';
 }
+
+
+function renderSmartInsights(){
+  const list = document.getElementById('smartInsights');
+  if(!list) return;
+
+  const txs = getTxs();
+  const now = new Date();
+
+  if(!txs.length){
+    list.innerHTML = '<li class="tiny muted">Add transactions to see insights.</li>';
+    return;
+  }
+
+  // helpers
+  function monthTotals(offset){
+    const ref = new Date(now.getFullYear(), now.getMonth()+offset, 1);
+    let exp = 0, inc = 0;
+    txs.forEach(t=>{
+      const d = new Date(t.date);
+      if(d.getMonth()===ref.getMonth() && d.getFullYear()===ref.getFullYear()){
+        if(t.type==='expense') exp += Number(t.amount);
+        else inc += Number(t.amount);
+      }
+    });
+    return {exp,inc};
+  }
+
+  const cur = monthTotals(0);
+  const prev = monthTotals(-1);
+  const insights = [];
+
+  /* Spending change */
+  if(prev.exp > 0){
+    const diffPct = ((cur.exp - prev.exp) / prev.exp) * 100;
+    if(Math.abs(diffPct) >= 5){
+      insights.push(
+        diffPct > 0
+          ? `You spent ${diffPct.toFixed(1)}% more than last month.`
+          : `You spent ${Math.abs(diffPct).toFixed(1)}% less than last month.`
+      );
+    }
+  }
+
+  /* Budget insight */
+  const budget = getMonthlyBudget();
+  if(budget > 0){
+    if(cur.exp <= budget){
+      insights.push('Great job! You stayed within your monthly budget 🎉');
+    } else {
+      insights.push('You exceeded your monthly budget ⚠');
+    }
+  }
+
+  /* Savings insight */
+  if(cur.inc > 0){
+    const savingsRate = ((cur.inc - cur.exp) / cur.inc) * 100;
+    if(savingsRate >= 20){
+      insights.push('Excellent savings rate this month 💪');
+    } else if(savingsRate < 5){
+      insights.push('Your savings rate is quite low this month.');
+    }
+  }
+
+  /* Weekend vs weekday insight */
+  let weekend = 0, weekday = 0;
+  txs.forEach(t=>{
+    if(t.type !== 'expense') return;
+    const d = new Date(t.date);
+    if(d.getMonth()===now.getMonth() && d.getFullYear()===now.getFullYear()){
+      const day = d.getDay();
+      if(day === 0 || day === 6) weekend += t.amount;
+      else weekday += t.amount;
+    }
+  });
+  if(weekend > weekday * 1.1){
+    insights.push('Most of your spending happens on weekends.');
+  }
+
+  /* fallback */
+  if(!insights.length){
+    insights.push('Your spending is stable this month.');
+  }
+
+  list.innerHTML = insights.map(i => `<li>${i}</li>`).join('');
+}
+
+function renderStreaks(){
+  const txs = getTxs();
+  const now = new Date();
+
+  const expenseDays = new Set();
+  const logDays = new Set();
+
+  txs.forEach(t=>{
+    const d = new Date(t.date);
+    const key = d.toISOString().slice(0,10);
+    logDays.add(key);
+    if(t.type === 'expense') expenseDays.add(key);
+  });
+
+  // zero-spend streak
+  let zeroStreak = 0;
+  for(let i=0;i<365;i++){
+    const d = new Date(now);
+    d.setDate(now.getDate() - i);
+    const key = d.toISOString().slice(0,10);
+    if(expenseDays.has(key)) break;
+    zeroStreak++;
+  }
+
+  // logging streak
+  let logStreak = 0;
+  for(let i=0;i<365;i++){
+    const d = new Date(now);
+    d.setDate(now.getDate() - i);
+    const key = d.toISOString().slice(0,10);
+    if(!logDays.has(key)) break;
+    logStreak++;
+  }
+
+  document.getElementById('zeroSpendStreak').textContent = `${zeroStreak} days`;
+  document.getElementById('logStreak').textContent = `${logStreak} days`;
+
+  // rewards
+  const badges = [];
+  const best = Math.max(zeroStreak, logStreak);
+
+  if(best >= 3) badges.push('🥉');
+  if(best >= 6) badges.push('🥈');
+  if(best >= 9) badges.push('🥇');
+  if(best >= 15) badges.push('💎');
+
+  document.getElementById('streakBadges').textContent =
+    badges.length ? `Rewards: ${badges.join(' ')}` : 'No rewards yet';
+}
+
+function renderMonthlySummary(){
+  const txs = getTxs();
+  const now = new Date();
+  const mm = now.getMonth();
+  const yy = now.getFullYear();
+
+  let income = 0, expense = 0;
+  const catTotals = {};
+  const dailyExpense = {};
+
+  txs.forEach(t=>{
+    const d = new Date(t.date);
+    if(d.getMonth() === mm && d.getFullYear() === yy){
+      const day = d.getDate();
+
+      if(t.type === 'income'){
+        income += Number(t.amount);
+      } else {
+        expense += Number(t.amount);
+        catTotals[t.category] = (catTotals[t.category] || 0) + Number(t.amount);
+        dailyExpense[day] = (dailyExpense[day] || 0) + Number(t.amount);
+      }
+    }
+  });
+
+  if(income === 0 && expense === 0){
+    document.getElementById('monthlySummary').textContent =
+      'No transactions recorded this month.';
+    return;
+  }
+
+  const savings = income - expense;
+  const savingsRate = income > 0 ? ((savings / income) * 100).toFixed(1) : 0;
+
+  const topCategory = Object.entries(catTotals)
+    .sort((a,b)=>b[1]-a[1])[0];
+
+  const highestDay = Object.entries(dailyExpense)
+    .sort((a,b)=>b[1]-a[1])[0];
+
+  const budget = getMonthlyBudget();
+  let budgetStatus = 'No budget set';
+  if(budget > 0){
+    budgetStatus = expense > budget
+      ? '❌ Budget exceeded'
+      : '✅ Within budget';
+  }
+
+  const personality = getExpensePersonality
+    ? getExpensePersonality()
+    : 'Balanced';
+
+  const summary = `
+📅 ${now.toLocaleString(undefined,{month:'long',year:'numeric'})}
+
+💰 Income: ${money(income)}
+💸 Expenses: ${money(expense)}
+💾 Savings: ${money(savings)} (${savingsRate}%)
+
+🔥 Highest spending day: Day ${highestDay?.[0] || '-'} (${money(highestDay?.[1] || 0)})
+🏷 Top category: ${topCategory?.[0] || '-'} (${money(topCategory?.[1] || 0)})
+
+🎯 Budget status: ${budgetStatus}
+🧠 Expense personality: ${personality}
+
+✨ Insight:
+${expense > income
+  ? 'You spent more than you earned. Consider reducing discretionary expenses.'
+  : savingsRate > 30
+    ? 'Excellent savings discipline this month. Keep it up!'
+    : 'You are maintaining a balanced financial flow.'}
+  `.trim();
+
+  document.getElementById('monthlySummary').textContent = summary;
+}
+
 
   function renderAnalysis(){
     const txs = getTxs();
@@ -555,8 +901,6 @@ function exportTransactionsCSV(){
       }
       if(t.method==='Cash') pmCash += Number(t.amount) * (t.type==='expense' ? -1 : 1);
       if(t.method==='Online') pmOnline += Number(t.amount) * (t.type==='expense' ? -1 : 1);
-      document.getElementById('pmCash').textContent = money(pmCash);
-document.getElementById('pmOnline').textContent = money(pmOnline);
 
       if(t.type==='expense'){
         catTotals[t.category] = (catTotals[t.category]||0) + Number(t.amount);
@@ -568,6 +912,8 @@ document.getElementById('pmOnline').textContent = money(pmOnline);
     topCatsEl.innerHTML = sortedCats.length ? sortedCats.map(c=>`<div style="display:flex;justify-content:space-between;margin-top:8px"><div>${escapeHtml(c[0])}</div><div style="font-weight:800">${money(c[1])}</div></div>`).join('') : '<div class="small-muted">No data</div>';
 
     document.getElementById('monthExpenses').textContent = money(monthExpenses);
+    renderBudget(monthExpenses);
+
     document.getElementById('monthIncome').textContent = money(monthIncome);
 
     const savingsRate = monthIncome > 0 ? round(((monthIncome - monthExpenses)/monthIncome)*100) : 0;
@@ -577,6 +923,13 @@ document.getElementById('savingsPct').textContent = savingsRate.toFixed(1) + '%'
     document.getElementById('pmCash').textContent = money(Math.abs(pmCash));
     document.getElementById('pmOnline').textContent = money(Math.abs(pmOnline));
     document.getElementById('netIncome').textContent = money(monthIncome - monthExpenses);
+
+
+    renderPhase1Insights();
+    renderExpenseHeatmap();
+    renderSmartInsights();
+    renderStreaks();
+    renderMonthlySummary();
   }
 
   let currentRange = 'daily';
@@ -596,7 +949,7 @@ document.getElementById('savingsPct').textContent = savingsRate.toFixed(1) + '%'
         const dayTotals = txs.filter(t=>t.date.slice(0,10)===key).reduce((acc,t)=>{ if(t.type==='expense') acc.exp += Number(t.amount); else acc.inc += Number(t.amount); return acc; },{exp:0,inc:0});
         const node = document.createElement('div');
         node.style.display='flex';node.style.justifyContent='space-between';node.style.alignItems='center';node.style.marginTop='12px';
-        node.innerHTML = `<div style="width:70₹"><div style="font-weight:700">${d.toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'})}</div>
+        node.innerHTML = `<div style="width:70%"><div style="font-weight:700">${d.toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'})}</div>
           <div style="height:10px;background:#fff;border-radius:8px;margin-top:8px;box-shadow:inset 0 1px 0 rgba(0,0,0,0.03)"><div style="height:10px;border-radius:8px;background:#e6f3ff;width:${Math.min((dayTotals.inc+dayTotals.exp)/100,100)}%"></div></div></div>
           <div style="text-align:right"><div style="color:#ef4444">${money(dayTotals.exp)}</div><div style="color:#10b981">${money(dayTotals.inc)}</div></div>`;
         content.appendChild(node);
@@ -611,7 +964,7 @@ document.getElementById('savingsPct').textContent = savingsRate.toFixed(1) + '%'
         }).reduce((acc,t)=>{ if(t.type==='expense') acc.exp += Number(t.amount); else acc.inc += Number(t.amount); return acc; },{exp:0,inc:0});
         const node = document.createElement('div');
         node.style.display='flex';node.style.justifyContent='space-between';node.style.alignItems='center';node.style.marginTop='10px';
-        node.innerHTML = `<div style="width:70₹"><div style="font-weight:700">Week ${8-i}</div></div>
+        node.innerHTML = `<div style="width:70%"><div style="font-weight:700">Week ${8-i}</div></div>
           <div style="text-align:right"><div style="color:#ef4444">${money(weekTotals.exp)}</div><div style="color:#10b981">${money(weekTotals.inc)}</div></div>`;
         content.appendChild(node);
       }
@@ -624,7 +977,7 @@ document.getElementById('savingsPct').textContent = savingsRate.toFixed(1) + '%'
         const totals = txs.filter(t=>{ const d=new Date(t.date); return d.getMonth()===month && d.getFullYear()===year; }).reduce((acc,t)=>{ if(t.type==='expense') acc.exp += Number(t.amount); else acc.inc += Number(t.amount); return acc; },{exp:0,inc:0});
         const node = document.createElement('div');
         node.style.display='flex';node.style.justifyContent='space-between';node.style.alignItems='center';node.style.marginTop='10px';
-        node.innerHTML = `<div style="width:70₹"><div style="font-weight:700">${m.toLocaleString(undefined,{month:'short',year:'numeric'})}</div></div>
+        node.innerHTML = `<div style="width:70%"><div style="font-weight:700">${m.toLocaleString(undefined,{month:'short',year:'numeric'})}</div></div>
           <div style="text-align:right"><div style="color:#ef4444">${money(totals.exp)}</div><div style="color:#10b981">${money(totals.inc)}</div></div>`;
         content.appendChild(node);
       }
@@ -635,7 +988,7 @@ document.getElementById('savingsPct').textContent = savingsRate.toFixed(1) + '%'
         const totals = txs.filter(t=>{ const d = new Date(t.date); return d.getFullYear()===y; }).reduce((acc,t)=>{ if(t.type==='expense') acc.exp += Number(t.amount); else acc.inc += Number(t.amount); return acc; },{exp:0,inc:0});
         const node = document.createElement('div');
         node.style.display='flex';node.style.justifyContent='space-between';node.style.alignItems='center';node.style.marginTop='10px';
-        node.innerHTML = `<div style="width:70₹"><div style="font-weight:700">${y}</div></div>
+        node.innerHTML = `<div style="width:70%"><div style="font-weight:700">${y}</div></div>
           <div style="text-align:right"><div style="color:#ef4444">${money(totals.exp)}</div><div style="color:#10b981">${money(totals.inc)}</div></div>`;
         content.appendChild(node);
       }
@@ -705,10 +1058,30 @@ document.getElementById('savingsPct').textContent = savingsRate.toFixed(1) + '%'
       if(confirm('Clear ALL stored data (balances + transactions)? This cannot be undone.')) {
         localStorage.removeItem(LS.balances);
         localStorage.removeItem(LS.transactions);
+        localStorage.removeItem(LS.budget);
+
         renderBalances(); renderRecent(); renderAnalysis(); renderOverview(currentRange);
         alert('All data cleared.');
       }
     });
+
+    document.getElementById('copySummary')
+  ?.addEventListener('click', ()=>{
+    const text = document.getElementById('monthlySummary').textContent;
+    navigator.clipboard.writeText(text);
+    alert('Monthly summary copied!');
+  });
+
+document.getElementById('saveBudget').addEventListener('click', ()=>{
+  const val = Number(document.getElementById('budgetInput').value || 0);
+  if(val <= 0){
+    alert('Enter a valid monthly budget');
+    return;
+  }
+  saveMonthlyBudget(val);
+  renderAnalysis();
+});
+
 
     // export / import buttons
     document.getElementById('exportBtn').addEventListener('click', ()=> showExportMenu());
@@ -760,6 +1133,59 @@ document.getElementById('savingsPct').textContent = savingsRate.toFixed(1) + '%'
     saveTxs(txs);
     renderBalances(); renderRecent(); renderAnalysis(); renderOverview(currentRange);
   }
+function renderPhase1Insights(){
+  const txs = getTxs();
+  const now = new Date();
+
+  function monthTotals(offset){
+    const ref = new Date(now.getFullYear(), now.getMonth()+offset, 1);
+    let exp=0, inc=0;
+    txs.forEach(t=>{
+      const d=new Date(t.date);
+      if(d.getMonth()===ref.getMonth() && d.getFullYear()===ref.getFullYear()){
+        if(t.type==='expense') exp+=Number(t.amount);
+        else inc+=Number(t.amount);
+      }
+    });
+    return {exp,inc};
+  }
+
+  const cur = monthTotals(0);
+  const prev = monthTotals(-1);
+
+  function trend(c,p){
+    if(c > p*1.05) return '↑ Increasing';
+    if(c < p*0.95) return '↓ Decreasing';
+    return '→ Stable';
+  }
+
+  document.getElementById('trendIndicators').innerHTML =
+    `Expenses: ${trend(cur.exp,prev.exp)}<br>
+     Income: ${trend(cur.inc,prev.inc)}<br>
+     Savings: ${trend(cur.inc-cur.exp, prev.inc-prev.exp)}`;
+
+  const daysInMonth = new Date(now.getFullYear(), now.getMonth()+1, 0).getDate();
+  const spentDays = new Set();
+
+  txs.forEach(t=>{
+    const d=new Date(t.date);
+    if(d.getMonth()===now.getMonth() && d.getFullYear()===now.getFullYear()){
+    if(t.type === 'expense'){
+  spentDays.add(d.getDate());
+}
+
+    }
+  });
+
+  let streak=0;
+  for(let i=now.getDate(); i>=1; i--){
+    if(spentDays.has(i)) break;
+    streak++;
+  }
+
+  document.getElementById('zeroSpendInfo').textContent =
+    `${daysInMonth - spentDays.size} zero-spend days • Current streak: ${streak}`;
+}
 
   function openEditModal(id){
     const txs = getTxs();
@@ -845,6 +1271,7 @@ document.getElementById('editTypeIncome').addEventListener('click', ()=>{
       renderBalances(); renderRecent(); renderAnalysis(); renderOverview(currentRange);
       modal.classList.remove('show');
     });
+
 
     // quick toggles for type
     const eExpense = document.getElementById('editTypeExpense');
@@ -942,12 +1369,13 @@ document.getElementById('editTypeIncome').addEventListener('click', ()=>{
         }
         if(toAdd.length === 0){ alert('No valid rows to import'); e.target.value = ''; return; }
         // append and apply balances for each
-        toAdd.forEach(tx=>{
-          const arr = getTxs();
-          arr.push(tx);
-          saveTxs(arr);
-          applyTxToBalances(tx, false);
-        });
+       const arr = getTxs();
+toAdd.forEach(tx=>{
+  arr.push(tx);
+  applyTxToBalances(tx, false);
+});
+saveTxs(arr);
+
         renderBalances(); renderRecent(); renderAnalysis(); renderOverview(currentRange);
         alert(`Imported ${toAdd.length} transactions (merged).`);
       }
@@ -1053,7 +1481,6 @@ document.getElementById('editTypeIncome').addEventListener('click', ()=>{
    * Initialize / small bindings
    ***********************/
   // wire quick CSV export as separate button too
-  document.getElementById('exportCSVtx').addEventListener('click', exportTransactionsCSV);
 
   // allow import via file input or drag & drop? just file input provided
   // helper: when page tracker shown, refresh rendering
@@ -1079,11 +1506,13 @@ document.getElementById('editTypeIncome').addEventListener('click', ()=>{
 
   </script>
 </body>
-  <script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./sw.js');
-}
+ <script>
+window.addEventListener('load', ()=>{
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js');
+  }
+});
 </script>
 
-</html>
 
+</html>
