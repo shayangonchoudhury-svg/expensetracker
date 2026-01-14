@@ -639,21 +639,36 @@ function renderExpenseHeatmap(){
   container.innerHTML = '';
 
   for(let i = 0; i < daysInMonth; i++){
-    const amt = dailySpend[i];
-    let color = '#e5f9ee'; // no spend
+  const amt = dailySpend[i];
+  const today = new Date().getDate();
 
-    if(amt > 0 && amt <= maxSpend * 0.33) color = '#bbf7d0';
-    else if(amt <= maxSpend * 0.66) color = '#86efac';
-    else if(amt > maxSpend * 0.66) color = '#22c55e';
+  let color = '#16a34a';
 
-    const cell = document.createElement('div');
-    cell.style.height = '24px';
-    cell.style.borderRadius = '6px';
-    cell.style.background = color;
-    cell.title = `Day ${i+1}: ₹${amt.toFixed(2)}`;
-
-    container.appendChild(cell);
+  if (i + 1 > today) {
+    color = '#e5e7eb';
+  } else if (amt >= 400) {
+    color = '#7f1d1d';
+  } else if (amt >= 300) {
+    color = '#dc2626';
+  } else if (amt >= 200) {
+    color = '#f87171';
+  } else if (amt >= 100) {
+    color = '#facc15';
+  } else if (amt >= 50) {
+    color = '#86efac';
+  } else {
+    color = '#166534';
   }
+
+  const cell = document.createElement('div');
+  cell.style.height = '24px';
+  cell.style.borderRadius = '6px';
+  cell.style.background = color;
+  cell.title = `Day ${i+1}: ₹${amt.toFixed(2)}`;
+
+  container.appendChild(cell);
+}
+
 }
 
 function getExpensePersonality(){
@@ -1516,3 +1531,4 @@ window.addEventListener('load', ()=>{
 
 
 </html>
+
