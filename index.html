@@ -638,23 +638,25 @@ function renderExpenseHeatmap(){
 
   container.innerHTML = '';
 
-  for(let i = 0; i < daysInMonth; i++){
+    for(let i = 0; i < daysInMonth; i++){
   const amt = dailySpend[i];
   const today = new Date().getDate();
 
-  let color = '#16a34a';
+  let color = '#166534';
 
   if (i + 1 > today) {
     color = '#e5e7eb';
   } else if (amt >= 400) {
     color = '#7f1d1d';
   } else if (amt >= 300) {
-    color = '#dc2626';
+    color = '#fca5a5';
   } else if (amt >= 200) {
-    color = '#f87171';
+    color = '#2563eb';
   } else if (amt >= 100) {
-    color = '#facc15';
+    color = '#93c5fd';
   } else if (amt >= 50) {
+    color = '#fde047';
+  } else if (amt > 0) {
     color = '#86efac';
   } else {
     color = '#166534';
@@ -665,10 +667,78 @@ function renderExpenseHeatmap(){
   cell.style.borderRadius = '6px';
   cell.style.background = color;
   cell.title = `Day ${i+1}: ₹${amt.toFixed(2)}`;
+const clickedDay = i + 1;
+
+cell.style.cursor = 'pointer';
+
+cell.addEventListener('click', () => {
+  showDayTransactions(clickedDay);
+});
 
   container.appendChild(cell);
 }
 
+
+}
+
+function showDayTransactions(day){
+  const txs = getTxs();
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth();
+
+  const dayTxs = txs.filter(t => {
+    const d = new Date(t.date);
+    return (
+      d.getDate() === day &&
+      d.getMonth() === month &&
+      d.getFullYear() === year
+    );
+  });
+
+  const total = dayTxs
+    .filter(t => t.type === 'expense')
+    .reduce((s,t) => s + Number(t.amount), 0);
+
+  let html = `
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <strong>Transactions — ${day} ${now.toLocaleString(undefined,{month:'long'})}</strong>
+      <button id="closeDayModal" class="edit-btn">Close</button>
+    </div>
+    <div class="tiny muted" style="margin-top:6px">
+      Total spent: ${money(total)}
+    </div>
+    <div style="margin-top:12px">
+  `;
+
+  if(!dayTxs.length){
+    html += `<div class="small-muted">No transactions on this day.</div>`;
+  } else {
+    dayTxs.forEach(t => {
+      html += `
+        <div style="display:flex;justify-content:space-between;padding:8px;border-radius:8px;background:#f8fafc;margin-bottom:6px">
+          <div>
+            <div style="font-weight:700">${escapeHtml(t.desc || t.category)}</div>
+            <div class="tiny muted">${escapeHtml(t.category)} • ${t.method}</div>
+          </div>
+          <div style="color:${t.type==='expense'?'#ef4444':'#10b981'};font-weight:800">
+            ${t.type==='expense' ? '-' : '+'}${money(t.amount)}
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  html += `</div>`;
+
+  const modal = document.getElementById('modalBackdrop');
+  const content = document.getElementById('modalContent');
+  content.innerHTML = html;
+  modal.classList.add('show');
+
+  document
+    .getElementById('closeDayModal')
+    .addEventListener('click', () => modal.classList.remove('show'));
 }
 
 function getExpensePersonality(){
@@ -1531,4 +1601,5 @@ window.addEventListener('load', ()=>{
 
 
 </html>
+
 
